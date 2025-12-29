@@ -1,5 +1,7 @@
 package com.xzvxv3.ui;
 
+import com.xzvxv3.manager.AuthManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,10 +17,12 @@ public class LoginPanel extends JPanel {
     private JButton loginBtn = new JButton();
     private JButton signUpBtn = new JButton();
 
-    private JFrame frame = null;
+    private AuthManager authManager = null;
+    private ChatAppFrame frame = null;
 
-    public LoginPanel(JFrame frame) {
+    public LoginPanel(ChatAppFrame frame) {
         this.frame = frame;
+        authManager = frame.getAuthManager();
 
         setLayout(null);
         setBackground(new Color(179, 179, 179));
@@ -49,6 +53,20 @@ public class LoginPanel extends JPanel {
         loginBtn.setRolloverIcon(new ImageIcon("image/login/login_btn_rollover.png"));
         loginBtn.setBorderPainted(false);
         loginBtn.setFocusPainted(false);
+
+        loginBtn.addActionListener(e -> {
+            String id = idTextField.getText();
+            char[] password = passwordTextField.getPassword();
+
+            if(!authManager.loginCheck(id, password)) {
+                JOptionPane.showMessageDialog(this, "로그인에 실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+                System.out.println("[로그인 실패]");
+                return;
+            }
+
+            frame.replacePanel(new ChatRoomPanel());
+            System.out.println("[로그인 성공]");
+        });
     }
 
     // 회원가입 버튼 초기 설정
@@ -61,10 +79,7 @@ public class LoginPanel extends JPanel {
 
         // 회원 가입 화면으로 이동
         signUpBtn.addActionListener(e -> {
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(new SignUpPanel(frame));
-            frame.revalidate();
-            frame.repaint();
+            frame.replacePanel(new SignUpPanel(frame));
         });
     }
 
