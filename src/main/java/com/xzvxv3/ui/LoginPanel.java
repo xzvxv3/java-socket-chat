@@ -60,7 +60,7 @@ public class LoginPanel extends JPanel {
 
             if(!authManager.loginCheck(id, password)) {
                 JOptionPane.showMessageDialog(this, "로그인에 실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-                System.out.println("[로그인 실패]");
+                System.err.println("[로그인 실패]");
                 return;
             }
 
