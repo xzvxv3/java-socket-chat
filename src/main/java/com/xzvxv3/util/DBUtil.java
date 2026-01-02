@@ -27,11 +27,17 @@ public class DBUtil {
     }
 
     // DB 연결
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                props.getProperty("db.url"),
-                props.getProperty("db.user"),
-                props.getProperty("db.password")
-        );
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(
+                    props.getProperty("db.url"),
+                    props.getProperty("db.user"),
+                    props.getProperty("db.password")
+            );
+        } catch (SQLException e) {
+            System.out.println("[데이터베이스 연결 실패] - 종료");
+            System.exit(0);
+        }
+        return null;
     }
 }
