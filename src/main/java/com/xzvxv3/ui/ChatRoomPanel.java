@@ -9,6 +9,7 @@ public class ChatRoomPanel extends JPanel  {
 
     private ImageIcon titleImage = new ImageIcon("image/chatroom/title_lbl.png");
     private ImageIcon usersImage = new ImageIcon("image/chatroom/users_lbl.png");
+    private ImageIcon cmdImage = new ImageIcon("image/chatroom/cmd_lbl.png");
     private ChatAppFrame frame = null;
     private JTextArea textArea;    // 채팅 내용이 보이는 곳
     private JScrollPane textScrollPane;
@@ -39,6 +40,7 @@ public class ChatRoomPanel extends JPanel  {
         textField.addActionListener(e -> sendAction());
     }
 
+    // 채팅 입력 -> 서버에 전송
     private void sendAction() {
         String msg = textField.getText().trim();
         if (!msg.isEmpty()) {
@@ -48,6 +50,7 @@ public class ChatRoomPanel extends JPanel  {
         }
     }
 
+    // 컴포넌트 초기화
     private void initComponent() {
         setUpChatArea();
         setUpInputArea();
@@ -62,7 +65,7 @@ public class ChatRoomPanel extends JPanel  {
         add(usersScrollPane);
     }
 
-    // 채팅창
+    // 채팅 기록창
     private void setUpChatArea() {
         textArea = new JTextArea();
         textArea.setEditable(false); // 편집 불가
@@ -74,6 +77,7 @@ public class ChatRoomPanel extends JPanel  {
         textScrollPane.setBounds(35, 140, 370, 450);
     }
 
+    // 유저 목록
     private void setUpStatusArea() {
         usersArea = new JTextArea();
         usersArea.setEditable(false); // 편집 불가
@@ -105,9 +109,20 @@ public class ChatRoomPanel extends JPanel  {
         backBtn.setBorderPainted(false);
         backBtn.setFocusPainted(false);
 
+        // 뒤로가기 버튼 => 로그아웃 버튼
         backBtn.addActionListener(e -> {
-            frame.replacePanel(new LoginPanel(frame));
-            client.close();
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "로그아웃 확인",
+                    "로그아웃 알림창",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (result == JOptionPane.YES_OPTION) {
+                frame.replacePanel(new LoginPanel(frame));
+                client.close();
+                System.out.println("[Log out successful]");
+            }
         });
     }
 
@@ -116,5 +131,6 @@ public class ChatRoomPanel extends JPanel  {
         super.paintComponent(g);
         g.drawImage(titleImage.getImage(), 75, -140, 450, 450, this);
         g.drawImage(usersImage.getImage(), 280, -60, 450, 450, this);
+        g.drawImage(cmdImage.getImage(), 210, 460, cmdImage.getIconWidth(), cmdImage.getIconHeight(), this);
     }
 }
