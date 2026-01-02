@@ -34,7 +34,6 @@ public class Server {
                     } finally {
                         sc.close();
                     }
-                    System.out.println("[서버가 종료되었습니다.]");
                     break;
                 }
             }
@@ -43,7 +42,8 @@ public class Server {
         // 소켓 연결
         while (true) {
             try {
-                Socket socket = serverSocket.accept(); // 여기서 대기 중 소켓이 닫히면 SocketException 발생
+                // 대기 중 소켓이 닫히면 SocketException 발생
+                Socket socket = serverSocket.accept();
 
                 Session session = new Session(socket, sessionManager);
                 sessionManager.add(session);
@@ -52,8 +52,11 @@ public class Server {
                 sessionThread.start();
 
             } catch (SocketException e) {
+                System.out.println("[서버 소켓 닫힘]");
                 break;
             }
         }
+
+        System.out.println("[서버가 종료되었습니다.]");
     }
 }
