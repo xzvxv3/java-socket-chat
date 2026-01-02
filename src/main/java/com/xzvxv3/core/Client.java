@@ -67,7 +67,7 @@ public class Client {
     // 메시지 보내기
     public void sendMessage(String msg) {
         try {
-            output.writeUTF("[" + id + "]: " + msg);
+            output.writeUTF(msg);
             output.flush();
         } catch (IOException e) {
             System.out.println("[메시지 전송 실패]");
