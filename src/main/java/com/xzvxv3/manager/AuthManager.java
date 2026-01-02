@@ -1,7 +1,6 @@
 package com.xzvxv3.manager;
 import com.xzvxv3.dao.UserRepository;
 import com.xzvxv3.model.User;
-import com.xzvxv3.util.DBUtil;
 import java.sql.*;
 import java.util.Arrays;
 
