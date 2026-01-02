@@ -64,8 +64,8 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            frame.replacePanel(new ChatRoomPanel());
-            System.out.println("[로그인 성공]");
+            frame.replacePanel(new ChatRoomPanel(frame, id));
+            System.out.println("[로그인 성공]: " + id);
         });
     }
 
